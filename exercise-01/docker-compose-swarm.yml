@@ -1,0 +1,34 @@
+version: '3'
+services:
+  backend-service:
+    image: backend
+    ports:
+      - "80:80"
+    deploy:
+      replicas: 4
+      update_config:
+        parallelism: 2
+        delay: 2s
+      restart_policy:
+        condition: on-failure 
+    networks:
+      - appnetwork
+
+  frontend-webapp:
+    image: frontend
+    depends_on:
+      - backend-service
+    ports:
+      - "8080:80"
+    deploy:
+      replicas: 1
+      update_config:
+        delay: 10s
+      restart_policy:
+        condition: on-failure 
+    networks:
+      - appnetwork
+
+networks:
+  appnetwork:
+    driver: overlay

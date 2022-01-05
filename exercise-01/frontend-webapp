@@ -1,0 +1,11 @@
+# pull nginx
+FROM nginx
+
+# remove default config
+RUN rm /etc/nginx/conf.d/default.conf
+
+# add our custom config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# expose port
+EXPOSE 80
